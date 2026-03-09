@@ -4,17 +4,6 @@
 
 This repo explores how the description of perfumes differs by gender, i.e. how women's and men's fragrances use different wordings. It is a Python/Jupyter-based data science project focusing on web scraping, lemmatization and visualization. 
 
-### Methodology
-
-- **Data:** perfume information is taken from the website of a german drugstore chain, Rossmann. Its perfumes and fragrances can be found [here](https://www.rossmann.de/de/pflege-und-duft/duefte-und-parfum/c/olcat2_5).
-- **Tools:** the project combines web scraping (to acquire the perfume data), numerical and textual data analysis (to compare prices and descriptions) as well as visualizations
-- **Procedure:** 
-    1. scrape product listings pages showing a condensed view of items
-    2. scrape product details pages showing specific information in individual items
-    3. analyze numerical data: compare prices between women's vs. men's perfumes
-    4. analyze textual data: lemmatize text descriptions -> create document term matrices -> compare term frequencies -> visualize
-
-
 ### Key findings
 ####  Perfume descriptions by gender
 Women's and men's fragrances are described and advertised in different ways. Specifically, the wordings differs in that certain words are overrepresented for one gender and underrepresented in the other, respectively. The following graph shows the most overrepresented words for women's fragrances at the top and the ones for men's at the bottom.
@@ -31,6 +20,22 @@ The analysis also compares the prices of women's and men's fragrances. We find s
 | ![price distribution](./plots/prices_pdf.png) | ![price boxplots](./plots/prices_box.png) | ![price cdfs](./plots/prices_cdf.png) |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 | frequency distribution          | boxplots     | cumulative density functions         |
+
+### Methodology
+
+- **Data:** perfume information is taken from the website of a german drugstore chain, Rossmann. Its perfumes and fragrances can be found [here](https://www.rossmann.de/de/pflege-und-duft/duefte-und-parfum/c/olcat2_5).
+- **Tools:** the project combines web scraping (to acquire the perfume data), numerical and textual data analysis (to compare prices and descriptions) as well as visualizations
+- **Procedure:** 
+    1. scrape product listings pages showing a condensed view of items
+
+    <img src="./screenshots/product_listings_page.png" alt="product listings page" width="500">
+    
+    2. scrape product details pages showing specific information in individual items (see text in purple box in the screenshot below)
+
+    <img src="./screenshots/product_details_page.png" alt="product details page" width="500">
+
+    3. analyze numerical data: compare prices between women's vs. men's perfumes (see plots above)
+    4. analyze textual data: lemmatize text descriptions -> create document term matrices -> compare term frequencies -> visualize (see plots above)
 
 ### Usage
 
