@@ -10,7 +10,7 @@ Women's and men's fragrances are described and advertised in different ways. Spe
 
 We find that women's perfumes tend to be advertised using vocabulary such as "sinnlich" (*sensual*) and "zart" (*tender*), while men's fragrances are described as "würzig" (*spicy*) or "aromatisch" (*aromatic*).
 
-![word frequencies](./plots/word_frequency.png)
+![word frequencies](./plots/word_frequencies.png)
 
 For this analysis, we have lemmatized words (to account for inflections), created document term matrices for each gender and compared the relative frequencies. Stop words, gender indicators ("Mann", "Frau", etc.) and brand names were excluded. The visualization then shows the words that have the highest difference in frequency between the genders.
 
