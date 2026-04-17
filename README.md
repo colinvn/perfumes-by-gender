@@ -56,7 +56,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Note that the webshop that is being scraped may be modified, requiring a revision of the scraping. However, the scraped data is available in the file `full_data.csv`.
+Note that the webshop that is being scraped may be modified, requiring a revision of the scraping. However, the scraped data is available via the file [`webshop_data_scraped.csv`](data/webshop_data_scraped_EN.csv). Similarly, the document term matrices created based on the lemmatised text descriptions are found in [`document_term_matrix_EN.csv`](data/document_term_matrix_EN.csv).
 
 --- 
 
