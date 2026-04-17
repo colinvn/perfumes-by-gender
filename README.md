@@ -4,11 +4,12 @@
 
 This repo explores how the description of perfumes differs by gender, i.e. how women's and men's fragrances use different wordings. It is a Python/Jupyter-based data science project focusing on web scraping, lemmatization and visualization. 
 
-### Key findings
+### Main findings
 ####  Perfume descriptions by gender
 Women's and men's fragrances are described and advertised in different ways. Specifically, the wordings differs in that certain words are overrepresented for one gender and underrepresented in the other, respectively. The following graph shows the most overrepresented words for women's fragrances at the top and the ones for men's at the bottom.
 
-We find that women's perfumes focuses on "flowery" vocabulary (such as _flower_, _floral_, _bloom_, _rose_) and a specific colour palette (pink, white). Men's fragrances, on the other hand, are advertised with a different colour focus (black, blue) and different, allegedly more masculine attributes (such as _intense_ and _boss_[^1]). These findings can either be interpreted as "unsurprising" or as yet another enforecement of gender stereotypes in everyday marketing.
+> **KEY:** We find that women's perfumes focuses on "flowery" vocabulary (such as _flower_, _floral_, _bloom_, _rose_) and a specific colour palette (pink, white). Men's fragrances, on the other hand, are advertised with a different colour focus (black, blue) and different, allegedly more masculine attributes (such as _intense_ and _boss_[^1]).<br>
+These findings can either be interpreted as "unsurprising" or as yet another enforecement of gender stereotypes in everyday marketing.
 
 ![word frequencies](./plots/EN/word_frequencies.png)
 
