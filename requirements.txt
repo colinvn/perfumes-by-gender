@@ -8,3 +8,4 @@ beautifulsoup4==4.14.3
 lxml==6.0.2
 spacy==3.8.11
 # de_core_news_sm
+# en_core_web_sm
