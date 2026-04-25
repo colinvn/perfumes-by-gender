@@ -820,7 +820,7 @@ hue-6-2: #e6c07b
         </head>
         <body class="vscode-body vscode-light">
             <figure style="text-align:center;">
-  <img src="file:////Users/colin/Desktop/Neuer Ordner/publication/banner_image.png" alt="Banner image" style="width:80%;height:auto;">
+  <img src="banner_image.png" alt="Banner image" style="width:80%;height:auto;">
   <figcaption><em>(Banner image) Image by author, created using AI</em></figcaption>
 </figure>
 <h1 id="boss-vs-bloom-uncovering-gender-bias-in-fragrance-descriptions-with-python">Boss vs. Bloom: Uncovering Gender Bias in Fragrance Descriptions with Python</h1>
@@ -835,7 +835,7 @@ hue-6-2: #e6c07b
 <h3 id="stage-1-product-listings-page">Stage 1: Product Listings Page</h3>
 <p>The product listings page shows a condensed overview of all available items, including product names, prices, and links to individual product pages. Crucially, the URL encodes the gender filter directly, which makes it easy to collect women's and men's fragrances separately.</p>
 <figure style="text-align:center;">
-  <img src="file:////Users/colin/Desktop/Neuer Ordner/publication/product_listings_page.png" alt="Product listings page" style="width:60%;height:auto;">
+  <img src="product_listings_page.png" alt="Product listings page" style="width:60%;height:auto;">
   <figcaption><em>Website by Sephora, screenshot by author</em></figcaption>
 </figure>
 <p>We construct the URL for each gender and request the page using the <code>requests</code> library. The HTML is then parsed with <code>BeautifulSoup</code> to extract the product SKU (a unique product identifier) and the URL of each product's detail page.</p>
@@ -882,7 +882,7 @@ df = pd.DataFrame({<span class="hljs-string">&#x27;id&#x27;</span>: col_id, <spa
 <h3 id="stage-2-product-details-page">Stage 2: Product Details Page</h3>
 <p>Each product detail page contains the actual text description and the per-millilitre price — the two pieces of information we care about most. The description is a few paragraphs of marketing copy, followed by fragrance notes and an ingredient list.</p>
 <figure style="text-align:center;">
-  <img src="file:////Users/colin/Desktop/Neuer Ordner/publication/product_details_page.png" alt="Product details page" style="width:60%;height:auto;">
+  <img src="product_details_page.png" alt="Product details page" style="width:60%;height:auto;">
   <figcaption><em>Website by Sephora, screenshot by author</em></figcaption>
 </figure>
 <p>We define a function that requests a single product page and extracts the description and price:</p>
@@ -967,12 +967,12 @@ ax.legend([<span class="hljs-string">&#x27;women&#x27;</span>, <span class="hljs
 plt.show()
 </code></pre>
 <figure style="text-align:center;">
-  <img src="file:////Users/colin/Desktop/Neuer Ordner/publication/prices_pdf.png" alt="Price frequency distributions" style="width:60%;height:auto;">
+  <img src="prices_pdf.png" alt="Price frequency distributions" style="width:60%;height:auto;">
   <figcaption><em>Image by author</em></figcaption>
 </figure>
 <p>The frequency distributions reveal that both distributions are right-skewed, with a long tail of high-priced premium and niche fragrances. Women's fragrances peak at a slightly higher price and have a heavier tail, but the shapes are broadly similar.</p>
 <figure style="text-align:center;">
-  <img src="file:////Users/colin/Desktop/Neuer Ordner/publication/prices_box.png" alt="Price boxplots" style="width:60%;height:auto;">
+  <img src="prices_box.png" alt="Price boxplots" style="width:60%;height:auto;">
   <figcaption><em>Image by author</em></figcaption>
 </figure>
 <p>The box plots confirm that the interquartile range for women (roughly £1.40–£2.40/ml) is higher and wider than for men (roughly £0.95–£1.56/ml), and that women's fragrances show more outliers at the top end.</p>
@@ -988,7 +988,7 @@ ax.legend([<span class="hljs-string">&#x27;women&#x27;</span>, <span class="hljs
 plt.show()
 </code></pre>
 <figure style="text-align:center;">
-  <img src="file:////Users/colin/Desktop/Neuer Ordner/publication/prices_cdf.png" alt="Price CDFs" style="width:60%;height:auto;">
+  <img src="prices_cdf.png" alt="Price CDFs" style="width:60%;height:auto;">
   <figcaption><em>Image by author</em></figcaption>
 </figure>
 <p>The cumulative distribution functions show the same story: at any given price point up to about £3/ml, a larger share of men's fragrances fall below that price. The women's CDF lies consistently to the right of the men's CDF, meaning that women's fragrances are systematically distributed across higher price points.</p>
@@ -1084,7 +1084,7 @@ plt.tight_layout()
 plt.show()
 </code></pre>
 <figure style="text-align:center;">
-  <img src="file:////Users/colin/Desktop/Neuer Ordner/publication/word_frequencies.png" alt="Word frequency differences by gender" style="width:60%;height:auto;">
+  <img src="word_frequencies.png" alt="Word frequency differences by gender" style="width:60%;height:auto;">
   <figcaption><em>Image by author</em></figcaption>
 </figure>
 <hr>
@@ -1126,7 +1126,7 @@ pip install -r requirements.txt
   <div>
     <p>Bernd is a postdoctoral researcher at the University of Brot. His research is at the intersection of economics and philosophy, including questions of justice in market environments.</p>
   </div>
-  <img src="file:////Users/colin/Desktop/Neuer Ordner/publication/profile.jpg" alt="profile picture" style="width:140px;height:auto;">
+  <img src="profile.jpg" alt="profile picture" style="width:140px;height:auto;">
 </div>
             
             
