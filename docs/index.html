@@ -1,845 +1,389 @@
 <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>Boss vs&period; Bloom&colon; Uncovering Gender Bias in Fragrance Descriptions with Python</title>
-            <style>
-/* From extension vscode.github */
+<html>
+<head>
+<title>perfume_article.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-.vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only],
-.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
-.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
-	display: none;
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
 }
 
-/* From extension zhuangtongfa.material-theme */
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body {
-  box-sizing: border-box;
-  min-width: 200px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote {
-  background-color: initial;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
-  color: initial;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body code {
-  color: inherit;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre code {
-  color: initial;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body code > div, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body code > div, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body code > div, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body code > div {
-  background: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table td {
-  border: 1px solid rgba(171, 178, 191, 0.5) !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body.showEditorSelection .code-active-line:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body.showEditorSelection .code-active-line:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body.showEditorSelection .code-active-line:before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body.showEditorSelection .code-active-line:before {
-  border-left: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body.showEditorSelection .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body.showEditorSelection .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body.showEditorSelection .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body.showEditorSelection .code-line:hover:before {
-  border-left: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body.showEditorSelection .code-line .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body.showEditorSelection .code-line .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body.showEditorSelection .code-line .code-line:hover:before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body.showEditorSelection .code-line .code-line:hover:before {
-  border-left: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
-  margin-top: 16px;
-  margin-bottom: 16px;
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
 }
 
-/* Generated from 'node_modules/github-markdown-css/github-markdown.css' */
-@font-face {
-  font-family: octicons-link;
-  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format("woff");
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body {
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  line-height: 1.5;
-  color: rgb(171, 178, 191);
-  line-height: 1.5;
-  word-wrap: break-word;
-  background: #282c34;
-  padding-top: 20px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-c, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-c, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-c, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-c {
-  color: #6a737d;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-c1, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-s .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-c1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-s .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-c1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-s .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-c1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-s .pl-v {
-  color: #005cc5;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-e, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-e, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-e, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-e, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-en {
-  color: #6f42c1;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-smi, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-s .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-smi, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-s .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-smi, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-s .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-smi, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-s .pl-s1 {
-  color: #24292e;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ent, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ent, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ent, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ent {
-  color: #22863a;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-k, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-k, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-k, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-k {
-  color: #d73a49;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-s, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-pds, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-s .pl-pse .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr .pl-sre, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr .pl-sra, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-s, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-pds, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-s .pl-pse .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr .pl-sre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr .pl-sra, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-s, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-pds, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-s .pl-pse .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr .pl-sre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr .pl-sra, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-s, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-pds, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-s .pl-pse .pl-s1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr .pl-sre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr .pl-sra {
-  color: #032f62;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-smw, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-smw, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-smw, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-v, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-smw {
-  color: #e36209;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-bu, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-bu, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-bu, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-bu {
-  color: #b31d28;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ii, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ii, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ii, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ii {
-  color: #fafbfc;
-  background-color: #b31d28;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-c2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-c2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-c2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-c2 {
-  color: #fafbfc;
-  background-color: #d73a49;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-c2::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-c2::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-c2::before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-c2::before {
-  content: "^M";
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sr .pl-cce, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sr .pl-cce {
-  font-weight: bold;
-  color: #22863a;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ml, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ml, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ml, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ml {
-  color: #735c0f;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mh, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mh .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ms, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mh, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mh .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ms, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mh, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mh .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ms, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mh, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mh .pl-en, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ms {
-  font-weight: bold;
-  color: #005cc5;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mi, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mi, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mi, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mi {
-  font-style: italic;
-  color: #24292e;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mb, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mb, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mb, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mb {
-  font-weight: bold;
-  color: #24292e;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-md, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-md, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-md, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-md {
-  color: #b31d28;
-  background-color: #ffeef0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mi1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mi1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mi1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mi1 {
-  color: #22863a;
-  background-color: #f0fff4;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mc, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mc, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mc, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mc {
-  color: #e36209;
-  background-color: #ffebda;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mi2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mi2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mi2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mi2 {
-  color: #f6f8fa;
-  background-color: #005cc5;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-mdr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-mdr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-mdr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-mdr {
-  font-weight: bold;
-  color: #6f42c1;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-ba, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-ba, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-ba, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-ba {
-  color: #586069;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-sg, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-sg, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-sg, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-sg {
-  color: #959da5;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-corl, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-corl, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-corl, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-corl {
-  text-decoration: underline;
-  color: #032f62;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .octicon {
-  display: inline-block;
-  vertical-align: text-top;
-  fill: currentColor;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a {
-  background-color: transparent;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a:active, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a:active, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a:active, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a:active, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a:hover {
-  outline-width: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body strong {
-  font-weight: inherit;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body strong {
-  font-weight: bolder;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1 {
-  margin: 0.67em 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body img {
-  border-style: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr {
-  box-sizing: content-box;
-  height: 0;
-  overflow: visible;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body input {
-  font: inherit;
-  margin: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body input {
-  overflow: visible;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body [type=checkbox], .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body [type=checkbox], .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body [type=checkbox], .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body [type=checkbox] {
-  box-sizing: border-box;
-  padding: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body *, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body *, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body *, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body * {
-  box-sizing: border-box;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body input, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body input {
-  font-family: inherit;
-  line-height: inherit;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a {
-  color: #528bff;
-  text-decoration: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a:hover, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a:hover {
-  text-decoration: underline;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body strong, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body strong {
-  font-weight: 600;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr {
-  height: 0;
-  margin: 15px 0;
-  overflow: hidden;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid #dfe2e5;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr::before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr::before {
-  display: table;
-  content: "";
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr::after, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr::after, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr::after, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr::after {
-  display: table;
-  clear: both;
-  content: "";
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table {
-  border-spacing: 0;
-  border-collapse: collapse;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body td, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body th, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body td, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body th, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body td, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body th, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body td, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body th {
-  padding: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1 {
-  font-weight: 600;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2 {
-  font-weight: 600;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3 {
-  font-weight: 600;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4 {
-  font-weight: 600;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5 {
-  font-weight: 600;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 {
-  font-weight: 600;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body p {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote {
-  margin: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol {
-  padding-left: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ol {
-  list-style-type: lower-roman;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ol ol {
-  list-style-type: lower-alpha;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dd, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dd, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dd, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dd {
-  margin-left: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .octicon, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .octicon {
-  vertical-align: text-bottom;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-0, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-0, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-0, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-0 {
-  padding-left: 0 !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-1 {
-  padding-left: 4px !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-2 {
-  padding-left: 8px !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-3, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-3, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-3, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-3 {
-  padding-left: 16px !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-4, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-4, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-4, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-4 {
-  padding-left: 24px !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-5, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-5, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-5, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-5 {
-  padding-left: 32px !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .pl-6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .pl-6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .pl-6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .pl-6 {
-  padding-left: 40px !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body::before, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body::before, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body::before {
-  display: table;
-  content: "";
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body::after, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body::after, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body::after, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body::after {
-  display: table;
-  clear: both;
-  content: "";
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body > *:first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body > *:first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body > *:first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body > *:first-child {
-  margin-top: 0 !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body > *:last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body > *:last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body > *:last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body > *:last-child {
-  margin-bottom: 0 !important;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body a:not([href]), .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body a:not([href]), .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body a:not([href]), .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body a:not([href]) {
-  color: inherit;
-  text-decoration: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .anchor {
-  float: left;
-  padding-right: 4px;
-  margin-left: -20px;
-  line-height: 1;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .anchor:focus, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .anchor:focus, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .anchor:focus, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .anchor:focus {
-  outline: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body p, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
-  margin-top: 0;
-  margin-bottom: 16px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr {
-  height: 0.25em;
-  padding: 0;
-  margin: 24px 0;
-  background-color: #e1e4e8;
-  border: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote {
-  /* padding: 0 1em;
-  color: #6a737d;
-  border-left: 0.25em solid #dfe2e5; */
-  padding: 8.5px 17px;
-  margin: 1.5em 0;
-  color: #7c879c;
-  border-color: #4b5362;
-  border-width: 4px;
-  border-left: 5px solid #4b5362;
-  background: transparent;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote > :first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote > :first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote > :first-child, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote > :first-child {
-  margin-top: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body blockquote > :last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body blockquote > :last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body blockquote > :last-child, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body blockquote > :last-child {
-  margin-bottom: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body kbd {
-  display: inline-block;
-  padding: 3px 5px;
-  line-height: 10px;
-  color: #444d56;
-  vertical-align: middle;
-  background-color: #fafbfc;
-  border: solid 1px #c6cbd1;
-  border-bottom-color: #959da5;
-  border-radius: 3px;
-  box-shadow: inset 0 -1px 0 #959da5;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 {
-  margin-top: 24px;
-  margin-bottom: 16px;
-  font-weight: 600;
-  line-height: 1.25;
-  color: rgb(240, 240, 240);
-  border-bottom: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5 .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 .octicon-link {
-  color: #1b1f23;
-  vertical-align: middle;
-  visibility: hidden;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5:hover .anchor, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6:hover .anchor {
-  text-decoration: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h3:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h4:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h5:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h3:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h4:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h5:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h3:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h4:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h5:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h3:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h4:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h5:hover .anchor .octicon-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6:hover .anchor .octicon-link {
-  visibility: visible;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h1, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h1 {
-  padding-bottom: 0.3em;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h2, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h2 {
-  padding-bottom: 0.3em;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body h6, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body h6 {
-  color: #6a737d;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol {
-  padding-left: 2em;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body ol ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body ol ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ul, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body ol ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ul, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ul ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ol, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body ol ul {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body li, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body li, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body li, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body li {
-  word-wrap: break-all;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body li > p, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body li > p, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body li > p, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body li > p {
-  margin-top: 16px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body li + li, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body li + li, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body li + li, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body li + li {
-  margin-top: 0.25em;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl {
-  padding: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl dt, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl dt, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl dt, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl dt {
-  padding: 0;
-  margin-top: 16px;
-  font-style: italic;
-  font-weight: 600;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body dl dd, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body dl dd, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body dl dd, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body dl dd {
-  padding: 0 16px;
-  margin-bottom: 16px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table {
-  display: block;
-  width: 100%;
-  overflow: auto;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table th {
-  font-weight: 700;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body table td, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table th, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body table td {
-  padding: 6px 13px;
-  /* border: 1px solid #dfe2e5; */
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body img, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body img {
-  max-width: 100%;
-  box-sizing: content-box;
-  display: inline-block;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body img[align=right], .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body img[align=right], .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body img[align=right], .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body img[align=right] {
-  padding-left: 20px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body img[align=left], .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body img[align=left], .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body img[align=left], .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body img[align=left] {
-  padding-right: 20px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  background-color: #3a3f4b;
-  border-radius: 3px;
-  color: white;
-  margin: 0 1px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
-  word-wrap: normal;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre > code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre > code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre > code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre > code {
-  padding: 0;
-  margin: 0;
-  word-break: normal;
-  white-space: pre;
-  background: transparent;
-  border: 0;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .highlight, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .highlight, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .highlight, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .highlight {
-  margin-bottom: 16px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .highlight pre {
-  margin-bottom: 0;
-  word-break: normal;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .highlight pre, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre {
-  padding: 16px;
-  overflow: auto;
-  line-height: 1.45;
-  /* background-color: #f6f8fa; */
-  border-radius: 3px;
-  background-color: #31363f;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body pre code, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body pre code {
-  display: inline;
-  max-width: auto;
-  padding: 0;
-  margin: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
-  background-color: transparent;
-  border: 0;
-  color: rgb(171, 178, 191);
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .full-commit .btn-outline:not(:disabled):hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .full-commit .btn-outline:not(:disabled):hover, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .full-commit .btn-outline:not(:disabled):hover, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .full-commit .btn-outline:not(:disabled):hover {
-  color: #005cc5;
-  border-color: #005cc5;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body kbd, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body kbd {
-  display: inline-block;
-  padding: 3px 5px;
-  line-height: 10px;
-  color: #444d56;
-  vertical-align: middle;
-  background-color: #fafbfc;
-  border: solid 1px #d1d5da;
-  border-bottom-color: #c6cbd1;
-  border-radius: 3px;
-  box-shadow: inset 0 -1px 0 #c6cbd1;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body :checked + .radio-label, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body :checked + .radio-label, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body :checked + .radio-label, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body :checked + .radio-label {
-  position: relative;
-  z-index: 1;
-  border-color: #0366d6;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .task-list-item {
-  list-style-type: none;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .task-list-item + .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .task-list-item + .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .task-list-item + .task-list-item, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .task-list-item + .task-list-item {
-  margin-top: 3px;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body .task-list-item input, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body .task-list-item input, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body .task-list-item input, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body .task-list-item input {
-  margin: 0 0.2em 0.25em -1.6em;
-  vertical-align: middle;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"].vscode-body hr, .vscode-dark[data-vscode-theme-name="One Dark Pro"].vscode-body hr {
-  border-bottom-color: #eee;
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
 }
 
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
 /*
+ * Markdown PDF CSS
+ */
 
-Atom One Dark by Daniel Gamage
-Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
 
-base:    #282c34
-mono-1:  #abb2bf
-mono-2:  #818896
-mono-3:  #5c6370
-hue-1:   #56b6c2
-hue-2:   #61aeee
-hue-3:   #c678dd
-hue-4:   #98c379
-hue-5:   #e06c75
-hue-5-2: #be5046
-hue-6:   #d19a66
-hue-6-2: #e6c07b
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
 
-*/
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  color: #abb2bf;
-  background: #282c34;
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
 }
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-comment,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-quote, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-comment,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-quote, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-comment,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-quote, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-comment,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-quote {
-  color: #5c6370;
-  font-style: italic;
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
 }
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-doctag,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-keyword,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-formula, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-doctag,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-keyword,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-formula, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-doctag,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-keyword,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-formula, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-doctag,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-keyword,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-formula {
-  color: #c678dd;
+
+.emoji {
+	height: 1.4em;
 }
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-section,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-name,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-tag,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-deletion,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-subst, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-section,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-name,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-tag,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-deletion,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-subst, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-section,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-name,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-tag,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-deletion,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-subst, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-section,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-name,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-tag,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-deletion,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-subst {
-  color: #e06c75;
+
+code {
+	font-size: 14px;
+	line-height: 19px;
 }
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-literal, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-literal, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-literal, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-literal {
-  color: #56b6c2;
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
 }
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-string,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-regexp,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-addition,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-attribute,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-meta-string, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-string,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-regexp,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-addition,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-attribute,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-meta-string, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-string,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-regexp,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-addition,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-attribute,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-meta-string, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-string,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-regexp,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-addition,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-attribute,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-meta-string {
-  color: #98c379;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-built_in,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-class .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-built_in,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-class .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-built_in,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-class .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-built_in,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-class .hljs-title {
-  color: #e6c07b;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-attr,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-variable,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-template-variable,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-type,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-class,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-attr,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-pseudo,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-number, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-attr,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-variable,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-template-variable,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-type,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-class,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-attr,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-pseudo,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-number, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-attr,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-variable,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-template-variable,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-type,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-class,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-attr,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-pseudo,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-number, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-attr,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-variable,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-template-variable,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-type,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-class,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-attr,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-pseudo,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-number {
-  color: #d19a66;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-symbol,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-bullet,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-link,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-meta,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-selector-id,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-symbol,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-bullet,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-link,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-meta,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-selector-id,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-symbol,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-bullet,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-link,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-meta,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-selector-id,
-.vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-title, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-symbol,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-bullet,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-link,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-meta,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-selector-id,
-.vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-title {
-  color: #61aeee;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-emphasis, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-emphasis, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-emphasis, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-emphasis {
-  font-style: italic;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-strong, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-strong, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-strong {
-  font-weight: bold;
-}
-.vscode-dark[data-vscode-theme-name="One Dark Pro Mix"] .hljs-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Flat"] .hljs-link, .vscode-dark[data-vscode-theme-name="One Dark Pro Darker"] .hljs-link, .vscode-dark[data-vscode-theme-name="One Dark Pro"] .hljs-link {
-  text-decoration: underline;
+
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
 }
 
 </style>
-    <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-      mermaid.initialize({ startOnLoad: true });
-    </script>
-            
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
-<style>
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
-                font-size: 14px;
-                line-height: 1.6;
-            }
-        </style>
-        <style>
-.task-list-item {
-    list-style-type: none;
-}
 
-.task-list-item-checkbox {
-    margin-left: -20px;
-    vertical-align: middle;
-    pointer-events: none;
-}
-</style>
-<style>
-:root {
-  --color-note: #0969da;
-  --color-tip: #1a7f37;
-  --color-warning: #9a6700;
-  --color-severe: #bc4c00;
-  --color-caution: #d1242f;
-  --color-important: #8250df;
-}
-
-</style>
-<style>
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-note: #2f81f7;
-    --color-tip: #3fb950;
-    --color-warning: #d29922;
-    --color-severe: #db6d28;
-    --color-caution: #f85149;
-    --color-important: #a371f7;
-  }
-}
-
-</style>
-<style>
-.markdown-alert {
-  padding: 0.5rem 1rem;
-  margin-bottom: 16px;
-  color: inherit;
-  border-left: .25em solid #888;
-}
-
-.markdown-alert>:first-child {
-  margin-top: 0
-}
-
-.markdown-alert>:last-child {
-  margin-bottom: 0
-}
-
-.markdown-alert .markdown-alert-title {
-  display: flex;
-  font-weight: 500;
-  align-items: center;
-  line-height: 1
-}
-
-.markdown-alert .markdown-alert-title .octicon {
-  margin-right: 0.5rem;
-  display: inline-block;
-  overflow: visible !important;
-  vertical-align: text-bottom;
-  fill: currentColor;
-}
-
-.markdown-alert.markdown-alert-note {
-  border-left-color: var(--color-note);
-}
-
-.markdown-alert.markdown-alert-note .markdown-alert-title {
-  color: var(--color-note);
-}
-
-.markdown-alert.markdown-alert-important {
-  border-left-color: var(--color-important);
-}
-
-.markdown-alert.markdown-alert-important .markdown-alert-title {
-  color: var(--color-important);
-}
-
-.markdown-alert.markdown-alert-warning {
-  border-left-color: var(--color-warning);
-}
-
-.markdown-alert.markdown-alert-warning .markdown-alert-title {
-  color: var(--color-warning);
-}
-
-.markdown-alert.markdown-alert-tip {
-  border-left-color: var(--color-tip);
-}
-
-.markdown-alert.markdown-alert-tip .markdown-alert-title {
-  color: var(--color-tip);
-}
-
-.markdown-alert.markdown-alert-caution {
-  border-left-color: var(--color-caution);
-}
-
-.markdown-alert.markdown-alert-caution .markdown-alert-title {
-  color: var(--color-caution);
-}
-
-</style>
-        
-        </head>
-        <body class="vscode-body vscode-light">
-            <figure style="text-align:center;">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<figure style="text-align:center;">
   <img src="banner_image.png" alt="Banner image" style="width:80%;height:auto;">
   <figcaption><em>(Banner image) Image by author, created using AI</em></figcaption>
 </figure>
 <h1 id="boss-vs-bloom-uncovering-gender-bias-in-fragrance-descriptions-with-python">Boss vs. Bloom: Uncovering Gender Bias in Fragrance Descriptions with Python</h1>
 <p><em>Using NLP and web scraping to analyse how fragrance retailers use different language and pricing for women's and men's products</em></p>
 <hr>
-<p>There is a long-running debate about whether products marketed to women are priced higher than equivalent products marketed to men — the so-called &quot;pink tax.&quot; The fragrance industry, with its strict gender segmentation and wildly varying price points, offers a natural testing ground. But rather than just looking at price, this project asks a second, more subtle question: <strong>do brands actually describe and advertise fragrances differently depending on the intended gender?</strong></p>
-<p>To find out, this article walks through a complete data science pipeline: scraping product data from a major online fragrance retailer, comparing prices across genders, and applying NLP techniques to the product descriptions to identify the words that are most distinctively associated with women's versus men's fragrances.</p>
-<p>All code is in Python and the project combines web scraping (<code>requests</code>, <code>BeautifulSoup</code>), numerical analysis (<code>pandas</code>, <code>seaborn</code>), and language analysis (<code>spaCy</code>). The full project — code, scraped data, and document-term matrices — is available at <a href="https://github.com/colinvn/perfumes-by-gender">github.com/colinvn/perfumes-by-gender</a>.</p>
+<p>Perfume is not just about scent — it is also about language. And that language differs markedly depending on whether a fragrance is marketed to men or women.</p>
+<p>I scraped ~700 fragrance listings from Sephora UK and used NLP to compare how women's and men's products are described. This article walks through the pipeline — scraping, lemmatisation, document-term matrices — and what came out of it. Along the way, we also take a quick look at whether women's fragrances are priced differently from men's.</p>
+<p>All code is in Python (<code>requests</code>, <code>BeautifulSoup</code>, <code>spaCy</code>, <code>pandas</code>). The full project — code, scraped data, and document-term matrices — is available at <a href="https://github.com/colinvn/perfumes-by-gender">github.com/colinvn/perfumes-by-gender</a>.</p>
 <hr>
 <h2 id="the-data-scraping-sephora">The Data: Scraping Sephora</h2>
-<p>The data comes from the fragrance section of <a href="https://www.sephora.co.uk/fragrances">Sephora UK</a>. The scraping process takes place in two stages, mirroring the two-level structure of the webshop itself.</p>
-<h3 id="stage-1-product-listings-page">Stage 1: Product Listings Page</h3>
-<p>The product listings page shows a condensed overview of all available items, including product names, prices, and links to individual product pages. Crucially, the URL encodes the gender filter directly, which makes it easy to collect women's and men's fragrances separately.</p>
+<p>The data comes from the fragrance section of <a href="https://www.sephora.co.uk/fragrances">Sephora UK</a>. The scraping process takes place in two stages, mirroring the two-level structure of the webshop: first a product listings page giving an overview of all items, then individual product details pages containing the description and price for each item.</p>
 <figure style="text-align:center;">
   <img src="product_listings_page.png" alt="Product listings page" style="width:60%;height:auto;">
   <figcaption><em>Website by Sephora, screenshot by author</em></figcaption>
 </figure>
-<p>We construct the URL for each gender and request the page using the <code>requests</code> library. The HTML is then parsed with <code>BeautifulSoup</code> to extract the product SKU (a unique product identifier) and the URL of each product's detail page.</p>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> requests
+<p>The listings page URL encodes the gender filter directly, making it straightforward to collect women's and men's fragrances separately. We request each page with <code>requests</code>, parse the HTML with <code>BeautifulSoup</code>, and extract the product SKU and detail page URL from each product card:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> requests
 <span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
 <span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
 <span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
@@ -863,10 +407,8 @@ product_listings = {}
     soup = BeautifulSoup(response.text, <span class="hljs-string">&#x27;html.parser&#x27;</span>)
     product_listings[gender] = soup.find_all(<span class="hljs-string">&#x27;div&#x27;</span>, class_=<span class="hljs-string">&#x27;Product&#x27;</span>)
     <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Collected <span class="hljs-subst">{<span class="hljs-built_in">len</span>(product_listings[gender])}</span> items for <span class="hljs-subst">{gender}</span>.&#x27;</span>)
-</code></pre>
-<p>This yields 500 items for women and 203 items for men. From each product card, we extract the SKU and the full URL:</p>
-<pre><code class="language-python">col_id, col_url, col_gender = [], [], []
 
+col_id, col_url, col_gender = [], [], []
 <span class="hljs-keyword">for</span> gender <span class="hljs-keyword">in</span> genders:
     <span class="hljs-keyword">for</span> product <span class="hljs-keyword">in</span> product_listings[gender]:
         tag = product.select(<span class="hljs-string">&#x27;a&#x27;</span>)[<span class="hljs-number">0</span>]
@@ -877,16 +419,13 @@ product_listings = {}
         col_gender.append(gender)
 
 df = pd.DataFrame({<span class="hljs-string">&#x27;id&#x27;</span>: col_id, <span class="hljs-string">&#x27;url&#x27;</span>: col_url, <span class="hljs-string">&#x27;gender&#x27;</span>: col_gender})
-</code></pre>
-<p>The result is a dataframe with 703 rows, each containing a product ID, a URL, and a gender label — ready to be used as a crawl list for the next stage.</p>
-<h3 id="stage-2-product-details-page">Stage 2: Product Details Page</h3>
-<p>Each product detail page contains the actual text description and the per-millilitre price — the two pieces of information we care about most. The description is a few paragraphs of marketing copy, followed by fragrance notes and an ingredient list.</p>
+</div></code></pre>
+<p>This gives us a crawl list of 703 products (500 women's, 203 men's). We then visit each product detail page to extract the marketing description and the per-millilitre price:</p>
 <figure style="text-align:center;">
   <img src="product_details_page.png" alt="Product details page" style="width:60%;height:auto;">
   <figcaption><em>Website by Sephora, screenshot by author</em></figcaption>
 </figure>
-<p>We define a function that requests a single product page and extracts the description and price:</p>
-<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_product_data</span>(<span class="hljs-params">url</span>):
+<pre class="hljs"><code><div><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_product_data</span>(<span class="hljs-params">url</span>):
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text, <span class="hljs-string">&#x27;html.parser&#x27;</span>)
 
@@ -906,24 +445,20 @@ df = pd.DataFrame({<span class="hljs-string">&#x27;id&#x27;</span>: col_id, <spa
         description = np.nan
 
     <span class="hljs-keyword">return</span> {<span class="hljs-string">&#x27;price_per_ml&#x27;</span>: price_per_ml, <span class="hljs-string">&#x27;description&#x27;</span>: description}
-</code></pre>
-<p>We then iterate over all product URLs and populate the dataframe:</p>
-<pre><code class="language-python">df[<span class="hljs-string">&#x27;description&#x27;</span>] = pd.NA
-df[<span class="hljs-string">&#x27;price_per_ml&#x27;</span>] = pd.NA
 
-gender_count = {<span class="hljs-string">&#x27;women&#x27;</span>: df[<span class="hljs-string">&#x27;gender&#x27;</span>].eq(<span class="hljs-string">&#x27;women&#x27;</span>).<span class="hljs-built_in">sum</span>(), <span class="hljs-string">&#x27;men&#x27;</span>: df[<span class="hljs-string">&#x27;gender&#x27;</span>].eq(<span class="hljs-string">&#x27;men&#x27;</span>).<span class="hljs-built_in">sum</span>()}
-total = <span class="hljs-built_in">len</span>(df)
+df[<span class="hljs-string">&#x27;description&#x27;</span>] = pd.NA
+df[<span class="hljs-string">&#x27;price_per_ml&#x27;</span>] = pd.NA
 
 <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> df.index:
     url = df.at[i, <span class="hljs-string">&#x27;url&#x27;</span>]
     product_data = get_product_data(url)
     df.at[i, <span class="hljs-string">&#x27;description&#x27;</span>] = product_data[<span class="hljs-string">&#x27;description&#x27;</span>]
     df.at[i, <span class="hljs-string">&#x27;price_per_ml&#x27;</span>] = product_data[<span class="hljs-string">&#x27;price_per_ml&#x27;</span>]
-</code></pre>
-<p>After converting <code>price_per_ml</code> to a numeric type and checking for missing values — there are none for either descriptions or prices — we have a clean dataset of <strong>703 products</strong> (491 women's, 201 men's), each with a text description and a price per millilitre. This is the dataset that drives both analyses below.</p>
+</div></code></pre>
+<p>After converting <code>price_per_ml</code> to a numeric type and checking for missing values — there are none — we have a clean dataset of <strong>703 products</strong> (491 women's, 201 men's), each with a text description and a price per millilitre.</p>
 <hr>
-<h2 id="numerical-analysis-do-women-pay-more">Numerical Analysis: Do Women Pay More?</h2>
-<p>The most immediate question is whether women's fragrances cost more than men's. The summary statistics give a first impression:</p>
+<h2 id="a-quick-look-at-prices">A Quick Look at Prices</h2>
+<p>Before turning to the text analysis, a brief detour: do women's fragrances cost more?</p>
 <table>
 <thead>
 <tr>
@@ -951,54 +486,18 @@ total = <span class="hljs-built_in">len</span>(df)
 </tr>
 </tbody>
 </table>
-<p>Women's fragrances do appear more expensive on average — £2.13/ml versus £1.45/ml for men. But before drawing conclusions, we need to look at the full distributions.</p>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
-<span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns
-
-fig, ax = plt.subplots()
-sns.histplot(
-    ax=ax, data=df, x=<span class="hljs-string">&#x27;price_per_ml&#x27;</span>, hue=<span class="hljs-string">&#x27;gender&#x27;</span>,
-    stat=<span class="hljs-string">&#x27;probability&#x27;</span>, common_norm=<span class="hljs-literal">False</span>,
-    bins=<span class="hljs-number">50</span>, kde=<span class="hljs-literal">True</span>, edgecolor=<span class="hljs-string">&#x27;none&#x27;</span>,
-)
-ax.set_xlabel(<span class="hljs-string">&#x27;price in £/ml (GBP per milliliter)&#x27;</span>)
-ax.set_ylabel(<span class="hljs-string">&#x27;relative frequency by gender&#x27;</span>)
-ax.legend([<span class="hljs-string">&#x27;women&#x27;</span>, <span class="hljs-string">&#x27;men&#x27;</span>])
-plt.show()
-</code></pre>
-<figure style="text-align:center;">
-  <img src="prices_pdf.png" alt="Price frequency distributions" style="width:60%;height:auto;">
-  <figcaption><em>Image by author</em></figcaption>
-</figure>
-<p>The frequency distributions reveal that both distributions are right-skewed, with a long tail of high-priced premium and niche fragrances. Women's fragrances peak at a slightly higher price and have a heavier tail, but the shapes are broadly similar.</p>
+<p>Women's fragrances are more expensive on average — £2.13/ml versus £1.45/ml — and the box plot shows the gap is consistent across the full distribution, not just driven by a few outliers:</p>
 <figure style="text-align:center;">
   <img src="prices_box.png" alt="Price boxplots" style="width:60%;height:auto;">
   <figcaption><em>Image by author</em></figcaption>
 </figure>
-<p>The box plots confirm that the interquartile range for women (roughly £1.40–£2.40/ml) is higher and wider than for men (roughly £0.95–£1.56/ml), and that women's fragrances show more outliers at the top end.</p>
-<pre><code class="language-python">fig, ax = plt.subplots()
-sns.ecdfplot(
-    ax=ax,
-    data=df,
-    x=<span class="hljs-string">&#x27;price_per_ml&#x27;</span>, hue=<span class="hljs-string">&#x27;gender&#x27;</span>,
-)
-ax.set_xlabel(<span class="hljs-string">&#x27;price in £/ml (GBP per milliliter)&#x27;</span>)
-ax.set_ylabel(<span class="hljs-string">&#x27;share of products below price x&#x27;</span>)
-ax.legend([<span class="hljs-string">&#x27;women&#x27;</span>, <span class="hljs-string">&#x27;men&#x27;</span>])
-plt.show()
-</code></pre>
-<figure style="text-align:center;">
-  <img src="prices_cdf.png" alt="Price CDFs" style="width:60%;height:auto;">
-  <figcaption><em>Image by author</em></figcaption>
-</figure>
-<p>The cumulative distribution functions show the same story: at any given price point up to about £3/ml, a larger share of men's fragrances fall below that price. The women's CDF lies consistently to the right of the men's CDF, meaning that women's fragrances are systematically distributed across higher price points.</p>
-<p>That said, the difference is not dramatic. The two distributions substantially overlap, and the gap in means (around £0.68/ml) is moderate relative to the standard deviations. Since the focus of this project is on the textual data, we do not conduct a formal statistical test for price differences and leave the outliers in place.</p>
+<p>The interquartile range for women (roughly £1.40–£2.40/ml) sits noticeably higher than for men (roughly £0.95–£1.56/ml). That said, the distributions substantially overlap and we do not conduct a formal test here. Whether this gap constitutes a &quot;pink tax&quot; or reflects differences in brand composition and product type is a question for another day — the main event is the text analysis.</p>
 <hr>
-<h2 id="textual-analysis-what-words-define-each-gender">Textual Analysis: What Words Define Each Gender?</h2>
-<p>The more interesting part of this project is the NLP analysis. Do the marketing texts for women's and men's fragrances actually use different language? To answer this, we follow a standard text-analysis pipeline: collect the descriptions, lemmatise them, build document-term matrices, and compare relative word frequencies.</p>
-<h3 id="data-preparation">Data Preparation</h3>
-<p>We first filter out any products without a text description and remove duplicates — products that appear in multiple sizes often share the same description, and we want to count each description once.</p>
-<pre><code class="language-python">genders = [<span class="hljs-string">&#x27;women&#x27;</span>, <span class="hljs-string">&#x27;men&#x27;</span>]
+<h2 id="what-words-define-each-gender">What Words Define Each Gender?</h2>
+<p>Do the marketing texts for women's and men's fragrances actually use different language? To answer this, we follow a standard NLP pipeline: deduplicate descriptions, lemmatise, build document-term matrices, and compare relative word frequencies.</p>
+<h3 id="preparing-the-text">Preparing the Text</h3>
+<p>We filter out products without a description and remove duplicates — products sold in multiple sizes often share the same description, and we want to count each one only once:</p>
+<pre class="hljs"><code><div>genders = [<span class="hljs-string">&#x27;women&#x27;</span>, <span class="hljs-string">&#x27;men&#x27;</span>]
 
 dict_descriptions = {}
 <span class="hljs-keyword">for</span> gender <span class="hljs-keyword">in</span> genders:
@@ -1010,11 +509,11 @@ dict_descriptions = {}
         .reset_index(drop=<span class="hljs-literal">True</span>)
     )
     dict_descriptions[gender] = descriptions
-</code></pre>
-<p>After deduplication, we are left with 499 unique women's descriptions and 202 unique men's descriptions.</p>
+</div></code></pre>
+<p>This leaves 499 unique women's descriptions and 202 unique men's descriptions.</p>
 <h3 id="lemmatisation-with-spacy">Lemmatisation with spaCy</h3>
-<p>Rather than counting raw word forms, we lemmatise — that is, we reduce each word to its base form (so that &quot;blooming&quot;, &quot;bloomed&quot;, and &quot;bloom&quot; all count as &quot;bloom&quot;). We use the <code>en_core_web_sm</code> model from <a href="https://spacy.io/">spaCy</a>, a small English model trained on web data. We also discard stop words and punctuation.</p>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> spacy
+<p>Rather than counting raw word forms, we lemmatise — reducing each word to its base form so that &quot;blooming&quot;, &quot;bloomed&quot;, and &quot;bloom&quot; all count as the same token. We use spaCy's <code>en_core_web_sm</code> model and discard stop words and punctuation:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> spacy
 
 <span class="hljs-comment"># On first run, download the model:</span>
 <span class="hljs-comment"># !python -m spacy download en_core_web_sm</span>
@@ -1033,12 +532,11 @@ dict_lemmata = {}
         ]
         list_lemmata.extend(lemmata)
     dict_lemmata[gender] = list_lemmata
-</code></pre>
-<p>The output is a flat list of lemmas for each gender — roughly 77,000 for women and 30,000 for men, reflecting both the larger sample and longer average descriptions in the women's category. The top lemmas overall — &quot;fragrance&quot;, &quot;ingredient&quot;, &quot;note&quot;, &quot;alcohol&quot;, &quot;parfum&quot; — are entirely generic and appear in nearly every product description regardless of gender.</p>
+</div></code></pre>
+<p>The output is a flat list of lemmas for each gender — roughly 77,000 for women and 30,000 for men, reflecting both the larger sample and longer average descriptions in the women's category.</p>
 <h3 id="building-document-term-matrices">Building Document-Term Matrices</h3>
-<p>We convert the lemmata into a document-term matrix (DTM) for each gender: a table where each row is a unique lemma, and the columns record how often it appears in absolute and relative terms. We then merge the two gender-specific DTMs and compute the <strong>delta</strong> — the difference in relative frequency between women's and men's descriptions. A positive delta means the word is overrepresented in women's descriptions; a negative delta means it is overrepresented in men's descriptions.</p>
-<pre><code class="language-python"><span class="hljs-comment"># Build the DTM for each gender</span>
-dfl_women = pd.DataFrame(dict_lemmata[<span class="hljs-string">&#x27;women&#x27;</span>], columns=[<span class="hljs-string">&#x27;lemma&#x27;</span>])
+<p>We convert the lemmata into a document-term matrix (DTM) for each gender: a table where each row is a unique lemma and the columns record how often it appears in absolute and relative terms. We then merge the two DTMs and compute the <strong>delta</strong> — the difference in relative frequency between women's and men's descriptions. A positive delta means the word appears relatively more often in women's descriptions; a negative delta means it is overrepresented in men's.</p>
+<pre class="hljs"><code><div>dfl_women = pd.DataFrame(dict_lemmata[<span class="hljs-string">&#x27;women&#x27;</span>], columns=[<span class="hljs-string">&#x27;lemma&#x27;</span>])
 dtm_women = dfl_women[<span class="hljs-string">&#x27;lemma&#x27;</span>].value_counts().reset_index(name=<span class="hljs-string">&#x27;absolute&#x27;</span>)
 dtm_women[<span class="hljs-string">&#x27;relative&#x27;</span>] = dtm_women[<span class="hljs-string">&#x27;absolute&#x27;</span>] / dtm_women[<span class="hljs-string">&#x27;absolute&#x27;</span>].<span class="hljs-built_in">sum</span>()
 
@@ -1049,18 +547,18 @@ dtm_men[<span class="hljs-string">&#x27;relative&#x27;</span>] = dtm_men[<span c
 <span class="hljs-comment"># Merge and compute delta (positive = more common in women&#x27;s descriptions)</span>
 dtm = pd.merge(dtm_women, dtm_men, on=<span class="hljs-string">&#x27;lemma&#x27;</span>, how=<span class="hljs-string">&#x27;outer&#x27;</span>, suffixes=(<span class="hljs-string">&#x27;_women&#x27;</span>, <span class="hljs-string">&#x27;_men&#x27;</span>)).fillna(<span class="hljs-number">0</span>)
 dtm[<span class="hljs-string">&#x27;delta&#x27;</span>] = dtm[<span class="hljs-string">&#x27;relative_women&#x27;</span>] - dtm[<span class="hljs-string">&#x27;relative_men&#x27;</span>]
-</code></pre>
-<p>The merged DTM contains around 7,600 unique lemmas in total, most of which are rare or shared equally between both genders. The interesting signal lies at the extremes.</p>
+</div></code></pre>
+<p>The merged DTM contains around 7,600 unique lemmas in total, most of which are rare or shared equally between both genders. The signal lies at the extremes.</p>
 <h3 id="filtering-out-noise">Filtering Out Noise</h3>
-<p>Before visualising the top words, we remove several categories of terms that would otherwise dominate the results but carry no interesting gender signal:</p>
+<p>Before visualising, we remove terms that would dominate the results but carry no interesting gender signal:</p>
 <ul>
-<li><strong>Direct gender references</strong> — words like &quot;woman&quot;, &quot;man&quot;, &quot;feminine&quot;, &quot;masculine&quot; are trivially more common for the corresponding gender and tell us nothing about marketing language.</li>
-<li><strong>Fragrance-type terminology</strong> — &quot;perfume&quot;, &quot;parfum&quot;, &quot;toilette&quot;, &quot;eau&quot;, &quot;aftershave&quot;, &quot;oil&quot; differ in frequency partly because Eau de Toilette products are more common among men's fragrances, not because of deliberate language choices.</li>
-<li><strong>Chemical compound names</strong> — &quot;benzyl&quot;, &quot;butyl&quot;, &quot;alcohol&quot;, &quot;salicylate&quot;, etc. are ingredient names found at the bottom of every product page and do not reflect marketing copy.</li>
-<li><strong>Brand-specific words</strong> — frequent words that stem from specific brand or product names are excluded to prevent brand composition effects from confounding the results.</li>
-<li><strong>Generic stop words</strong> — particles such as &quot;de&quot; (from French fragrance names) are excluded.</li>
+<li><strong>Direct gender references</strong> — &quot;woman&quot;, &quot;man&quot;, &quot;feminine&quot;, &quot;masculine&quot; are trivially skewed and tell us nothing about marketing language</li>
+<li><strong>Fragrance-type terminology</strong> — &quot;parfum&quot;, &quot;toilette&quot;, &quot;eau&quot; differ partly because Eau de Toilette is more common in men's lines, not because of deliberate word choices</li>
+<li><strong>Chemical compound names</strong> — ingredient names like &quot;benzyl&quot;, &quot;butyl&quot;, &quot;salicylate&quot; appear at the bottom of every product page and don't reflect marketing copy</li>
+<li><strong>Brand-specific words</strong> — excluded to avoid brand composition effects</li>
+<li><strong>Generic stop words</strong> — particles such as &quot;de&quot; from French fragrance names</li>
 </ul>
-<pre><code class="language-python">words_genders = [<span class="hljs-string">&#x27;woman&#x27;</span>, <span class="hljs-string">&#x27;man&#x27;</span>, <span class="hljs-string">&#x27;homme&#x27;</span>, <span class="hljs-string">&#x27;feminine&#x27;</span>, <span class="hljs-string">&#x27;femininity&#x27;</span>, <span class="hljs-string">&#x27;masculine&#x27;</span>]
+<pre class="hljs"><code><div>words_genders = [<span class="hljs-string">&#x27;woman&#x27;</span>, <span class="hljs-string">&#x27;man&#x27;</span>, <span class="hljs-string">&#x27;homme&#x27;</span>, <span class="hljs-string">&#x27;feminine&#x27;</span>, <span class="hljs-string">&#x27;femininity&#x27;</span>, <span class="hljs-string">&#x27;masculine&#x27;</span>]
 words_terminology = [<span class="hljs-string">&#x27;perfume&#x27;</span>, <span class="hljs-string">&#x27;parfum&#x27;</span>, <span class="hljs-string">&#x27;toilette&#x27;</span>, <span class="hljs-string">&#x27;fragrance&#x27;</span>, <span class="hljs-string">&#x27;eau&#x27;</span>, <span class="hljs-string">&#x27;aftershave&#x27;</span>, <span class="hljs-string">&#x27;oil&#x27;</span>]
 words_compounds = [<span class="hljs-string">&#x27;benzyl&#x27;</span>, <span class="hljs-string">&#x27;butyl&#x27;</span>, <span class="hljs-string">&#x27;alcohol&#x27;</span>, <span class="hljs-string">&#x27;salicylate&#x27;</span>, <span class="hljs-string">&#x27;ethylhexyl&#x27;</span>,
                    <span class="hljs-string">&#x27;methoxydibenzoylmethane&#x27;</span>, <span class="hljs-string">&#x27;hydroxycitronellal&#x27;</span>, <span class="hljs-string">&#x27;farnesol&#x27;</span>,
@@ -1073,53 +571,35 @@ more_exclusions = words_genders + words_terminology + words_compounds + words_br
 counter = <span class="hljs-number">20</span>  <span class="hljs-comment"># number of top words to show for each gender</span>
 dtm_mask = dtm[~dtm[<span class="hljs-string">&#x27;lemma&#x27;</span>].isin(more_exclusions)].sort_values(<span class="hljs-string">&#x27;delta&#x27;</span>, ascending=<span class="hljs-literal">False</span>)
 dtm_plot = pd.concat([dtm_mask[:counter], dtm_mask[-counter:]], ignore_index=<span class="hljs-literal">True</span>)
-</code></pre>
-<h3 id="visualisation">Visualisation</h3>
-<pre><code class="language-python">fig, ax = plt.subplots(figsize=(<span class="hljs-number">6</span>, <span class="hljs-number">10</span>))
+</div></code></pre>
+<h3 id="the-result">The Result</h3>
+<pre class="hljs"><code><div>fig, ax = plt.subplots(figsize=(<span class="hljs-number">6</span>, <span class="hljs-number">10</span>))
 ax.scatter(dtm_plot[<span class="hljs-string">&#x27;delta&#x27;</span>], dtm_plot[<span class="hljs-string">&#x27;lemma&#x27;</span>])
 ax.axvline(<span class="hljs-number">0</span>, color=<span class="hljs-string">&#x27;steelblue&#x27;</span>)
 ax.set_xlabel(<span class="hljs-string">&#x27;&lt;-- men | women --&gt;&#x27;</span>)
 ax.set_title(<span class="hljs-string">&#x27;Differences in word frequencies between genders&#x27;</span>)
 plt.tight_layout()
 plt.show()
-</code></pre>
+</div></code></pre>
 <figure style="text-align:center;">
   <img src="word_frequencies.png" alt="Word frequency differences by gender" style="width:60%;height:auto;">
   <figcaption><em>Image by author</em></figcaption>
 </figure>
 <hr>
 <h2 id="the-findings-flowers-pink-and-bosses">The Findings: Flowers, Pink, and Bosses</h2>
-<p>The dot plot above, showing the 20 words most overrepresented for each gender, is striking in its clarity.</p>
+<p>The dot plot is striking in its clarity.</p>
 <p><strong>Women's fragrances</strong> are described using a richly floral vocabulary: the top words are <em>floral</em>, <em>rose</em>, <em>flower</em>, <em>jasmine</em>, <em>bloom</em>, <em>blossom</em>, <em>bouquet</em>, <em>peony</em>, and <em>ylang</em> (as in ylang-ylang). The colour palette skews soft: <em>pink</em> and <em>white</em> feature prominently. Words like <em>delicate</em> and <em>vanilla</em> round out a picture of softness and sweetness.</p>
 <p><strong>Men's fragrances</strong> tell a different story. The most overrepresented words lean towards traditionally masculine connotations: <em>intense</em>, <em>woody</em>, <em>vetiver</em>, <em>spicy</em>, <em>aromatic</em>, <em>leather</em>, <em>sage</em>, <em>black</em>, <em>blue</em>. Descriptors like <em>gentleman</em> and <em>alpha</em> suggest a direct appeal to a certain idea of masculinity. And then there is <em>boss</em> — one of the most skewed words in the entire corpus.</p>
-<p>The word &quot;boss&quot; deserves a note. It is partially explained by the fact that the Hugo Boss brand has a higher share of its portfolio in the men's segment than in the women's segment, so some of the signal is a brand composition effect. But even after accounting for this, the word appears more frequently in men's descriptions than one would expect purely from brand distribution.</p>
-<p>Also notable is <em>coumarin</em>, a compound found in many aromatic and woody fragrances — its higher frequency in men's descriptions reflects genuinely different scent profiles typical of men's versus women's fragrances, rather than pure marketing language. Similarly, <em>citral</em> (a lemon-scented compound) is more common in men's descriptions.</p>
+<p>The numbers make the gap concrete: <em>floral</em> makes up 0.58% of all words in women's descriptions but only 0.13% in men's — nearly five times as frequent. <em>Boss</em> shows the reverse: 0.37% in men's descriptions versus just 0.02% in women's, a more than tenfold difference.</p>
+<p>The word &quot;boss&quot; deserves a note. It is partially explained by the fact that Hugo Boss has a higher share of its portfolio in the men's segment, so some of the signal is a brand composition effect. But even accounting for this, the word appears more in men's descriptions than brand distribution alone would predict.</p>
+<p>Also notable is <em>coumarin</em>, a compound found in many aromatic and woody fragrances — its higher frequency in men's descriptions reflects genuinely different scent profiles rather than pure marketing language. The analysis picks up both real compositional differences and deliberate rhetorical choices; separating the two cleanly would require ingredient-level data beyond what is available here.</p>
 <hr>
 <h2 id="discussion">Discussion</h2>
-<p>The findings confirm what many might intuitively suspect: women's and men's fragrances are marketed in systematically different ways, with the language choice reflecting — and reinforcing — traditional gender stereotypes.</p>
-<p>Women's fragrances are associated with flowers, delicacy, softness, and a pastel colour palette. Men's fragrances are associated with intensity, earthiness, wood, leather, and a darker colour palette. These differences are not subtle: if we compare the relative frequencies in our document term matrix, we e.g. see that</p>
-<ul>
-<li><em>floral</em> is nearly 5 times more likely to appear in the description of women's scents than in men's: it makes up 0.58 % of the words in first group, but only 0.13 % in the latter,</li>
-<li><em>boss</em> is more than 10 times as frequent in the description of men's fragrances, with a likelihood of 0.37 % compared to 0.02 % for women's.</li>
-</ul>
-<p>What should we make of this? One interpretation is simply that these descriptions accurately reflect genuine differences in scent profiles — women's fragrances really do use more floral ingredients, and the descriptions reflect this. There is some truth to this: <em>ylang-ylang</em>, <em>jasmine</em>, and <em>rose</em> are indeed more common in fragrances designed for women. But the marketing language goes well beyond neutral scent description. Words like <em>delicate</em>, <em>pink</em>, <em>bouquet</em>, and <em>bloom</em> are rhetorical choices that are meant to evoke a particular interpretation of &quot;femininity&quot;. Similarly, <em>intense</em>, <em>alpha</em>, and <em>gentleman</em> are not just scent descriptors — they are identity appeals.</p>
-<p>On the pricing side, women's fragrances do tend to be more expensive per millilitre, with a mean of £2.13/ml versus £1.45/ml for men. The difference is consistent across the distribution, as shown by the CDF plot. Whether this constitutes a &quot;pink tax&quot; — or whether it reflects genuine differences in product composition, brand positioning, or market segmentation — requires more analysis than this project provides.</p>
+<p>The findings confirm what many might intuitively suspect: women's and men's fragrances are marketed in systematically different ways, with language choices that reflect — and reinforce — traditional gender stereotypes.</p>
+<p>What should we make of this? One interpretation is that the descriptions simply reflect genuine differences in scent profiles — women's fragrances really do use more floral ingredients. There is some truth to this. But the marketing language goes well beyond neutral scent description. Words like <em>delicate</em>, <em>pink</em>, <em>bouquet</em>, and <em>bloom</em> are rhetorical choices that evoke a particular femininity. Similarly, <em>intense</em>, <em>alpha</em>, and <em>gentleman</em> are not just scent descriptors — they are identity appeals. The language is doing work that has nothing to do with how a fragrance smells.</p>
 <hr>
 <h2 id="replicating-this-analysis">Replicating This Analysis</h2>
-<p>The full code is available as a Jupyter notebook at <a href="https://github.com/colinvn/perfumes-by-gender">github.com/colinvn/perfumes-by-gender</a>. The scraped data and the document-term matrices are also provided as CSV files, so the text analysis can be reproduced without re-scraping the website (which may have changed since the data was collected).</p>
-<p>To run the notebook from scratch:</p>
-<pre><code class="language-bash">pyenv <span class="hljs-built_in">local</span> 3.12.12
-python -m venv .venv
-<span class="hljs-built_in">source</span> .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-</code></pre>
-<p>The key Python packages are: <code>requests</code>, <code>beautifulsoup4</code>, <code>pandas</code>, <code>numpy</code>, <code>matplotlib</code>, <code>seaborn</code>, and <code>spacy</code> (plus the <code>en_core_web_sm</code> model, installed via <code>python -m spacy download en_core_web_sm</code>).</p>
-<hr>
-<h2 id="references--further-reading">References &amp; further reading</h2>
-<p>The analysis presented here focuses on English-language product descriptions from Sephora UK. A parallel analysis for a German drugstore yields qualitatively consistent results: women's fragrances are described as &quot;sinnlich&quot; (sensual) and &quot;zart&quot; (tender), while men's fragrances lean towards &quot;würzig&quot; (spicy) and &quot;aromatisch&quot; (aromatic). The accompanying github repo includes a separate Jupyter notebook for scraping and analyzing the German data.</p>
-<p>An in-depth guide for projects of this sort is:</p>
-<p>[1] J. McLevey, Doing <a href="https://methods.sagepub.com/book/mono/doing-computational-social-science/toc">Computational Social Science</a> (2022), SAGE Publications Ltd</p>
+<p>The full code and data are at <a href="https://github.com/colinvn/perfumes-by-gender">github.com/colinvn/perfumes-by-gender</a>. The scraped dataset and document-term matrices are included as CSV files, so the text analysis can be reproduced without re-scraping the website. For a deeper methodological grounding in projects of this kind, John McLevey's <a href="https://methods.sagepub.com/book/mono/doing-computational-social-science/toc"><em>Doing Computational Social Science</em></a> (SAGE, 2022) is an excellent reference.</p>
 <hr>
 <h2 id="about-the-author">About the author</h2>
 <div style="display:flex;align-items:flex-start;gap:16px;">
@@ -1128,7 +608,6 @@ pip install -r requirements.txt
   </div>
   <img src="profile.jpg" alt="profile picture" style="width:140px;height:auto;">
 </div>
-            
-            
-        </body>
-        </html>
+
+</body>
+</html>
